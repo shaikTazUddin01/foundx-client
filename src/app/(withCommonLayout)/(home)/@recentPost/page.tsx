@@ -1,9 +1,11 @@
 import React, { Suspense } from "react";
-import Container from "../../UI/Container";
+
 import Link from "next/link";
 import { Button } from "@nextui-org/button";
 import { getRecentPost } from "@/src/services/RecentPost";
-import Card from "../../UI/Card";
+import Container from "@/src/components/UI/Container";
+import Card from "@/src/components/UI/Card";
+
 
 
 const RecentPost = async () => {
@@ -17,8 +19,8 @@ const RecentPost = async () => {
       </div>
 
       {/* <Suspense fallback={<Loading />}> */}
-        <div className="my-8 grid justify-center gap-10 sm:grid-cols-1 md:grid-cols-4">
-          {recentPosts?.map((item: any) => <Card item={item}/>)}
+        <div className="my-8 grid justify-center gap-10 sm:grid-cols-1 md:grid-cols-3">
+          {recentPosts?.map((item: any) => <Card key={item?._id} item={item}/>)}
         </div>
       {/* </Suspense> */}
 
