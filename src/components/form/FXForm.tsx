@@ -1,8 +1,9 @@
+"use client"
 import { ReactNode } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
 interface IFormConfig  {
-  defaultValue?: Record<string, any>;
+  defaultValues?: Record<string, any>;
   resolver?: any;
 };
 
@@ -12,11 +13,11 @@ interface IProps extends IFormConfig{
 }
 
 
-const FXForm = ({ children, onSubmit, defaultValue, resolver }:IProps) => {
+const FXForm = ({ children, onSubmit, defaultValues, resolver }:IProps) => {
   const formConfig: IFormConfig = {};
 
-  if (!!defaultValue) {
-    formConfig["defaultValue"] = defaultValue;
+  if (!!defaultValues) {
+    formConfig["defaultValues"] = defaultValues;
   }
   if (!!resolver) {
     formConfig["resolver"] = resolver;

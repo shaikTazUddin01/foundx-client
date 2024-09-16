@@ -1,3 +1,4 @@
+"use client"
 import { Input } from "@nextui-org/input";
 import { useFormContext } from "react-hook-form";
 
@@ -14,15 +15,24 @@ const FXInput = ({
   required = false,
   type = "text",
   label,
-  variant="bordered",
+  variant = "bordered",
   size = "sm",
   name,
 }: IProps) => {
+  const { register,formState :{errors}} = useFormContext();
 
-    const {register}=useFormContext()
-
+//   console.log(errors[name]);
   return (
-    <Input isRequired={required} type={type} label={label} size={size} variant={variant} {...register(name)}/>
+    <Input
+      isRequired={required}
+      type={type}
+      label={label}
+      size={size}
+      variant={variant}
+      {...register(name)}
+      isInvalid={!!errors[name]}
+      errorMessage={errors[name]?(errors[name].message as string):""}
+    />
   );
 };
 
