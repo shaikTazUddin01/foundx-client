@@ -8,8 +8,27 @@ import { FieldValues, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { registerUser } from "@/src/services/AuthService";
+import { useMutation } from "@tanstack/react-query";
 
 const Register = () => {
+  const {
+    mutate: createRegistration,
+    data,
+    isError,
+    isSuccess,
+    isPending,
+  } = useMutation({
+    mutationKey: ["USER_REGISTER"],
+    mutationFn: async(userData:FieldValues) => {
+     return await registerUser(userData);
+    },
+    onSuccess:()=>{
+      console.log('success');
+    }
+  });
+
+  console.log(data,isPending,isSuccess);
+
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const userData = {
       ...data,
@@ -17,7 +36,7 @@ const Register = () => {
         "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
     };
     console.log("inside form", userData);
-    registerUser(userData);
+    createRegistration(userData);
   };
   return (
     <div className=" mt-20 bg-white/10 w-[35%] mx-auto p-5 rounded-lg">
