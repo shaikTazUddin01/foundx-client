@@ -30,7 +30,7 @@ export async function middleware(request: NextRequest) {
     if (AuthRouters.includes(pathname)) {
       return NextResponse.next();
     } else {
-      return NextResponse.redirect(new URL("/login", request.url));
+      return NextResponse.redirect(new URL(`/login?redirect=${pathname}`, request.url));
     }
   }
 
