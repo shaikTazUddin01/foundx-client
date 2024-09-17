@@ -1,4 +1,5 @@
 "use client";
+import { logout } from "@/src/services/AuthService";
 import {
   Avatar,
   Button,
@@ -42,17 +43,23 @@ const NavbarDropdown = () => {
               handleRouterChange("/profile/claim-request");
             }}
           >
-           Claim Request
+            Claim Request
           </DropdownItem>
           <DropdownItem
             onClick={() => {
               handleRouterChange("/profile/settings");
             }}
           >
-           Setting
+            Setting
           </DropdownItem>
-
-          
+          <DropdownItem
+            key="delete"
+            color="danger"
+            className="text-danger"
+            onClick={() => logout()}
+          >
+            Logout
+          </DropdownItem>
         </DropdownMenu>
       </Dropdown>
     </div>
