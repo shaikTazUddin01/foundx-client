@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { registerUser } from "@/src/services/AuthService";
 import { useMutation } from "@tanstack/react-query";
+import { useAuthRegistration } from "@/src/hooks/useAuthRegister";
 
 const Register = () => {
   const {
@@ -17,17 +18,7 @@ const Register = () => {
     isError,
     isSuccess,
     isPending,
-  } = useMutation({
-    mutationKey: ["USER_REGISTER"],
-    mutationFn: async(userData:FieldValues) => {
-     return await registerUser(userData);
-    },
-    onSuccess:()=>{
-      console.log('success');
-    }
-  });
-
-  console.log(data,isPending,isSuccess);
+  } = useAuthRegistration();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const userData = {
