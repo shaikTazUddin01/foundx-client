@@ -32,11 +32,10 @@ export const loginUser = async (userData: FieldValues) => {
   }
 };
 
-export const logout=()=>{
-  cookies().delete('accessToken')
-  cookies().delete('refreshToken')
-}
-
+export const logout = () => {
+  cookies().delete("accessToken");
+  cookies().delete("refreshToken");
+};
 
 export const currentUser = async () => {
   let decoded = null;
@@ -44,14 +43,16 @@ export const currentUser = async () => {
   const accessToken = cookies().get("accessToken")?.value;
 
   if (accessToken) {
-    const decoded :Partial<IUser> = jwtDecode(accessToken);
+    const decoded: Partial<IUser> = jwtDecode(accessToken);
 
     return {
       _id: decoded._id,
       name: decoded.name,
       email: decoded.email,
+      mobileNumber: decoded?.mobileNumber,
       role: decoded.role,
       status: decoded.status,
+      profilePhoto: decoded?.profilePhoto,
     };
   }
 };
