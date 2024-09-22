@@ -14,7 +14,7 @@ type TRole = keyof typeof roleBaseRoutes;
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  console.log(pathname);
+  // console.log(pathname);
   const user = await currentUser();
   
   // console.log(user);
