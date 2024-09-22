@@ -17,7 +17,7 @@ export async function middleware(request: NextRequest) {
   console.log(pathname);
   const user = await currentUser();
   
-  console.log(user);
+  // console.log(user);
 
   // const user = {
   //   name: "taz",
