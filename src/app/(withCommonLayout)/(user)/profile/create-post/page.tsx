@@ -14,12 +14,16 @@ import {
 const page = () => {
   const method = useForm();
   const { register, handleSubmit, control } = method;
-  const { append, fields } = useFieldArray({
+  const { append, fields, remove } = useFieldArray({
     control,
     name: "questions",
   });
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
+    const postData = {
+      ...data,
+      questions: data.questions.map((item: { value: string }) => item.value),
+    };
+    console.log(postData);
   };
   const hanldeAppend = () => {
     append({ name: "questions" });
@@ -34,15 +38,17 @@ const page = () => {
             <h1 className="text-xl">Owner Verification Questions</h1>
             <Button onClick={() => hanldeAppend()}>Append</Button>
           </div>
-          <div className="mt-2">
-            {fields?.map((item, index) => (
+          {/* append question */}
+          {fields?.map((item, index) => (
+            <div className="mb-2 flex items-center gap-2" key={index}>
               <FXInput
                 key={item.id}
                 name={`questions.${index}.value`}
                 label="Questions"
               ></FXInput>
-            ))}
-          </div>
+              <Button onClick={() => remove(index)}>Remove</Button>
+            </div>
+          ))}
           <Divider className="my-5"></Divider>
           <Button type="submit">Post</Button>
         </form>
