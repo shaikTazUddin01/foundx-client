@@ -1,4 +1,5 @@
 "use client";
+import { useUser } from "@/src/context/user.provider";
 import { logout } from "@/src/services/AuthService";
 import {
   Avatar,
@@ -13,10 +14,15 @@ import { useRouter } from "next/navigation";
 
 const NavbarDropdown = () => {
   const router = useRouter();
+  const {setIsLoading}=useUser()
 
   const handleRouterChange = (path: string) => {
     router.push(path);
   };
+  const handleLogout=()=>{
+    logout()
+setIsLoading(true)
+  }
   return (
     <div>
       <Dropdown>
@@ -56,7 +62,7 @@ const NavbarDropdown = () => {
             key="delete"
             color="danger"
             className="text-danger"
-            onClick={() => logout()}
+            onClick={() => handleLogout()}
           >
             Logout
           </DropdownItem>

@@ -11,9 +11,11 @@ import { useAuthLogin } from "@/src/hooks/useAuthRegister";
 
 import Loading from "@/src/components/UI/Loading";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useUser } from "@/src/context/user.provider";
 
 const Login = () => {
   const searchParams = useSearchParams();
+  const{setIsLoading:userLoading}=useUser()
   const router = useRouter();
   const redirect = searchParams.get("redirect");
   // console.log("redirect-->", redirect);
@@ -21,6 +23,7 @@ const Login = () => {
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     loginUser(data);
+    userLoading(true)
   };
 
   useEffect(() => {
