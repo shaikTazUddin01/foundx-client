@@ -16,6 +16,7 @@ import {
 
 import { allDistict } from "@bangladeshi/bangladesh-address";
 import { useGetCategory } from "@/src/hooks/useCategory";
+import { ChangeEvent, useState } from "react";
 
 const cityOptions = allDistict()?.map((district: string) => {
   return {
@@ -25,6 +26,8 @@ const cityOptions = allDistict()?.map((district: string) => {
 });
 
 const page = () => {
+  const [imageFiles, setImageFiles] = useState<File[] | []>([]);
+  const [Priviewimage, setPriviewImage] = useState<string[] | []>([]);
   // get categories
   const {
     data: categorydata,
@@ -41,9 +44,8 @@ const page = () => {
         key: option?._id,
         label: option?.name,
       }));
-
   }
-// react hook form
+  // react hook form
   const method = useForm();
   const { register, handleSubmit, control } = method;
   // field array
@@ -64,6 +66,21 @@ const page = () => {
   const hanldeAppend = () => {
     append({ name: "questions" });
   };
+
+  const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files![0];
+
+    setImageFiles((prev) => [...prev, file]);
+    if (file) {
+      const reader = new FileReader();
+      // console.log("--->", render.result);
+      reader.onloadend = () => {
+        setPriviewImage((prev) => [...prev, reader.result as string]);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  console.log(Priviewimage);
   return (
     <div className="mt-10">
       <FormProvider {...method}>
@@ -72,7 +89,12 @@ const page = () => {
             <FXInput name="title" label="title" />
             <FXDatePicker name="foundDate" label="Found Date"></FXDatePicker>
             <FXInput name="Location" label="Location" />
-            <FXSelect name="city" label="city" options={cityOptions} disabled={!cityOptions} />
+            <FXSelect
+              name="city"
+              label="city"
+              options={cityOptions}
+              disabled={!cityOptions}
+            />
             <FXSelect
               name="category"
               label="Category"
@@ -80,7 +102,31 @@ const page = () => {
               disabled={!categorySuccess}
             />
             {/* <FXInput name="category" label="category" /> */}
-            <FXInput name="UploadImage" label="Upload Image" />
+            {/* <FXInput name="UploadImage" label="Upload Image" /> */}
+            <label
+              htmlFor="imageUpload"
+              className="w-full flex rounded-md h-full bg-gray-50/10  items-center px-3"
+            >
+              Upload Image
+            </label>
+            <input
+              type="file"
+              multiple
+              id="imageUpload"
+              className="hidden"
+              onChange={(e) => handleImageUpload(e)}
+            />
+          </div>
+          {/* priview image */}
+          <div className="flex gap-5 flex-wrap mt-5">
+            {Priviewimage?.length > 0 &&
+              Priviewimage?.map((img) => {
+                return (
+                  <div className="relative size-48 border border-dashed border-default-300 p-2 rounded-md">
+                    <img src={img} alt="lost item image" className="size-full object-cover object-center"/>
+                  </div>
+                );
+              })}
           </div>
           <Divider className="my-5"></Divider>
           <div className="flex justify-between items-center">
@@ -98,6 +144,7 @@ const page = () => {
               <Button onClick={() => remove(index)}>Remove</Button>
             </div>
           ))}
+          
           <Divider className="my-5"></Divider>
           <Button type="submit">Post</Button>
         </form>
