@@ -12,6 +12,7 @@ export interface IInputProps{
   variant?: "flat" | "bordered" | "faded" | "underlined";
   size?: "sm" | "md" | "lg";
   name: string;
+  disabled?:boolean
 }
 
 export * from "./RecentPost";

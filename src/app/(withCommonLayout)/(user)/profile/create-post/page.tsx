@@ -15,6 +15,7 @@ import {
 } from "react-hook-form";
 
 import { allDistict } from "@bangladeshi/bangladesh-address";
+import { useGetCategory } from "@/src/hooks/useCategory";
 
 const cityOptions = allDistict()?.map((district: string) => {
   return {
@@ -24,12 +25,33 @@ const cityOptions = allDistict()?.map((district: string) => {
 });
 
 const page = () => {
+  // get categories
+  const {
+    data: categorydata,
+    isLoading,
+    isSuccess: categorySuccess,
+  } = useGetCategory();
+
+  // create category oprions
+  let categoryOptions = [];
+  if (categorydata?.data && !isLoading) {
+    categoryOptions = categorydata?.data
+      ?.sort()
+      ?.map((option: { _id: string; name: string }) => ({
+        key: option?._id,
+        label: option?.name,
+      }));
+
+  }
+// react hook form
   const method = useForm();
   const { register, handleSubmit, control } = method;
+  // field array
   const { append, fields, remove } = useFieldArray({
     control,
     name: "questions",
   });
+  // handle submit
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     const postData = {
       ...data,
@@ -38,6 +60,7 @@ const page = () => {
     };
     console.log(postData);
   };
+  // handle append
   const hanldeAppend = () => {
     append({ name: "questions" });
   };
@@ -49,8 +72,14 @@ const page = () => {
             <FXInput name="title" label="title" />
             <FXDatePicker name="foundDate" label="Found Date"></FXDatePicker>
             <FXInput name="Location" label="Location" />
-            <FXSelect name="city" label="city" options={cityOptions} />
-            <FXInput name="category" label="category" />
+            <FXSelect name="city" label="city" options={cityOptions} disabled={!cityOptions} />
+            <FXSelect
+              name="category"
+              label="Category"
+              options={categoryOptions}
+              disabled={!categorySuccess}
+            />
+            {/* <FXInput name="category" label="category" /> */}
             <FXInput name="UploadImage" label="Upload Image" />
           </div>
           <Divider className="my-5"></Divider>

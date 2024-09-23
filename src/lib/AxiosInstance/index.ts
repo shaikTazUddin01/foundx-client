@@ -3,5 +3,6 @@ import axios from "axios";
 
 
 export const axiosInstance = axios.create({
-    baseURL: envConfig.baseApi,
+    baseURL: "http://localhost:5000/api/v1",
+    // baseURL: envConfig.baseApi,
   });

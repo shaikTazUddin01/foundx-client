@@ -9,10 +9,10 @@ interface IProps extends IInputProps {
   }[];
 }
 
-const FXSelect = ({ options, label, name ,variant="bordered"}: IProps) => {
+const FXSelect = ({ options, label, name ,variant="bordered",disabled}: IProps) => {
   const { register } = useFormContext();
   return (
-    <Select label={label} className="min-w-full sm:min-w-[225px]" size="sm" variant={variant} {...register(name)}>
+    <Select label={label} className="min-w-full sm:min-w-[225px]" size="sm" variant={variant} {...register(name)} isDisabled={disabled}>
       {options.map((option) => (
         <SelectItem key={option.key}>{option.label}</SelectItem>
       ))}
