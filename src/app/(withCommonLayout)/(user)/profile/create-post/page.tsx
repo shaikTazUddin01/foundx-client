@@ -1,6 +1,8 @@
 "use client";
+import FXDatePicker from "@/src/components/form/FXDatePicker";
 import FXForm from "@/src/components/form/FXForm";
 import FXInput from "@/src/components/form/FXInput";
+import IsoString from "@/src/utils/IsoString";
 import { Button } from "@nextui-org/button";
 import { Divider } from "@nextui-org/react";
 import {
@@ -22,6 +24,7 @@ const page = () => {
     const postData = {
       ...data,
       questions: data.questions.map((item: { value: string }) => item.value),
+      foundDate:IsoString(data?.foundDate)
     };
     console.log(postData);
   };
@@ -29,10 +32,17 @@ const page = () => {
     append({ name: "questions" });
   };
   return (
-    <div>
+    <div className="mt-10">
       <FormProvider {...method}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <FXInput name="title" label="title" />
+          <div className="grid grid-cols-2 gap-5">
+            <FXInput name="title" label="title" />
+            <FXDatePicker name="foundDate" label="Found Date"></FXDatePicker>
+            <FXInput name="Location" label="Location" />
+            <FXInput name="city" label="city" />
+            <FXInput name="category" label="category" />
+            <FXInput name="UploadImage" label="Upload Image" />
+          </div>
           <Divider className="my-5"></Divider>
           <div className="flex justify-between items-center">
             <h1 className="text-xl">Owner Verification Questions</h1>

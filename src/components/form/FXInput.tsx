@@ -1,15 +1,9 @@
 "use client"
+import { IInputProps } from "@/src/types";
 import { Input } from "@nextui-org/input";
 import { useFormContext } from "react-hook-form";
 
-interface IProps {
-  required?: boolean;
-  type?: string;
-  label: string;
-  variant?: "flat" | "bordered" | "faded" | "underlined";
-  size?: "sm" | "md" | "lg";
-  name: string;
-}
+interface IProps extends IInputProps {}
 
 const FXInput = ({
   required = false,
