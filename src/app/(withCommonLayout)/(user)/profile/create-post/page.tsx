@@ -2,6 +2,7 @@
 import FXDatePicker from "@/src/components/form/FXDatePicker";
 import FXForm from "@/src/components/form/FXForm";
 import FXInput from "@/src/components/form/FXInput";
+import FXSelect from "@/src/components/form/FXSelect";
 import IsoString from "@/src/utils/IsoString";
 import { Button } from "@nextui-org/button";
 import { Divider } from "@nextui-org/react";
@@ -12,6 +13,15 @@ import {
   useFieldArray,
   useForm,
 } from "react-hook-form";
+
+import { allDistict } from "@bangladeshi/bangladesh-address";
+
+const cityOptions = allDistict()?.map((district: string) => {
+  return {
+    key: district,
+    label: district,
+  };
+});
 
 const page = () => {
   const method = useForm();
@@ -24,7 +34,7 @@ const page = () => {
     const postData = {
       ...data,
       questions: data.questions.map((item: { value: string }) => item.value),
-      foundDate:IsoString(data?.foundDate)
+      foundDate: IsoString(data?.foundDate),
     };
     console.log(postData);
   };
@@ -39,7 +49,7 @@ const page = () => {
             <FXInput name="title" label="title" />
             <FXDatePicker name="foundDate" label="Found Date"></FXDatePicker>
             <FXInput name="Location" label="Location" />
-            <FXInput name="city" label="city" />
+            <FXSelect name="city" label="city" options={cityOptions} />
             <FXInput name="category" label="category" />
             <FXInput name="UploadImage" label="Upload Image" />
           </div>

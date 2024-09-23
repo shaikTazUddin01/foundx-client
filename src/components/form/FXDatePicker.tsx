@@ -21,7 +21,13 @@ const FXDatePicker = ({
     <Controller
       name={name}
       render={({ field: { value, ...fields } }) => (
-        <DatePicker label={label} className="max-w-full min-w-[225px]" variant="bordered" {...fields} />
+        <DatePicker
+          label={label}
+          className="max-w-full min-w-[225px]"
+          variant="bordered"
+          {...fields}
+          size="sm"
+        />
       )}
     />
   );
