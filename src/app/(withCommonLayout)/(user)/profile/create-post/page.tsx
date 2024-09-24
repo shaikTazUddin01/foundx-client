@@ -13,7 +13,8 @@ import {
   useFieldArray,
   useForm,
 } from "react-hook-form";
-
+import { MdDelete } from "react-icons/md";
+import { IoMdAdd } from "react-icons/io";
 import { allDistict } from "@bangladeshi/bangladesh-address";
 import { useGetCategory } from "@/src/hooks/useCategory";
 import { ChangeEvent, useState } from "react";
@@ -174,7 +175,7 @@ const page = () => {
           <Divider className="my-5"></Divider>
           <div className="flex justify-between items-center">
             <h1 className="text-xl">Owner Verification Questions</h1>
-            <Button onClick={() => hanldeAppend()}></Button>
+            <Button onClick={() => hanldeAppend()}><IoMdAdd className="text-2xl font-bold"/></Button>
           </div>
           {/* append question */}
           {fields?.map((item, index) => (
@@ -184,7 +185,7 @@ const page = () => {
                 name={`questions.${index}.value`}
                 label="Questions"
               ></FXInput>
-              <Button onClick={() => remove(index)}>Remove</Button>
+              <Button onClick={() => remove(index)}><MdDelete className="text-2xl font-bold"/></Button>
             </div>
           ))}
 

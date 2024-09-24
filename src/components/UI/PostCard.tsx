@@ -7,6 +7,7 @@ import { CiCalendar, CiLocationOn } from 'react-icons/ci';
 import userImg from'@/src/assets/download.png'
 import { IPost } from '@/src/types';
 import ImageGallery from './Post/ImageGallery';
+import ClaimRequestModal from '../modals/ClaimRequestModal';
 
 const PostCard = ({post}:{post:IPost}) => {
 //    console.log(post);
@@ -38,9 +39,7 @@ const PostCard = ({post}:{post:IPost}) => {
         <ImageGallery images={post?.images}/>
         <Divider className="my-3"></Divider>
         <footer className="mt-4 flex gap-5">
-          <Button variant="light" className="flex-1">
-            Claim Request
-          </Button>
+          <ClaimRequestModal></ClaimRequestModal>
           <div className="w-[1px] bg-default-200"></div>
           <Button variant="light" className="flex-1">
             Share
