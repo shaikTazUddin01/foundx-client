@@ -174,7 +174,7 @@ const page = () => {
           <Divider className="my-5"></Divider>
           <div className="flex justify-between items-center">
             <h1 className="text-xl">Owner Verification Questions</h1>
-            <Button onClick={() => hanldeAppend()}>Append</Button>
+            <Button onClick={() => hanldeAppend()}></Button>
           </div>
           {/* append question */}
           {fields?.map((item, index) => (

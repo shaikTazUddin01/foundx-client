@@ -2,7 +2,7 @@ export interface IPost {
   _id: string;
   title: string;
   description: string;
-  images: string | undefined;
+  images: string[] | [];
   location: string;
   city: string;
   dateFound: string;
