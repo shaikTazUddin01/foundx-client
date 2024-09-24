@@ -17,6 +17,12 @@ import {
 import { allDistict } from "@bangladeshi/bangladesh-address";
 import { useGetCategory } from "@/src/hooks/useCategory";
 import { ChangeEvent, useState } from "react";
+import FXTextArea from "@/src/components/form/FXTextArea";
+import { currentUser } from "@/src/services/AuthService";
+import { useUser } from "@/src/context/user.provider";
+import { useCreatePost } from "@/src/hooks/useLostProduct";
+import Loading from "@/src/components/UI/Loading";
+import { useRouter } from "next/navigation";
 
 const cityOptions = allDistict()?.map((district: string) => {
   return {
@@ -26,15 +32,25 @@ const cityOptions = allDistict()?.map((district: string) => {
 });
 
 const page = () => {
-  const [imageFiles, setImageFiles] = useState<File[] | []>([]);
-  const [Priviewimage, setPriviewImage] = useState<string[] | []>([]);
   // get categories
   const {
     data: categorydata,
     isLoading,
+    isError,
     isSuccess: categorySuccess,
   } = useGetCategory();
+  // console.log(isError);
+  const [imageFiles, setImageFiles] = useState<File[] | []>([]);
+  const [Priviewimage, setPriviewImage] = useState<string[] | []>([]);
+  const { user } = useUser();
 
+  // console.log(user);
+  // create post
+  const { mutate: postItem, isSuccess, isPending,isError:postError } = useCreatePost();
+
+  // console.log("-->>", categorydata);
+  // console.log(postError);
+  const router=useRouter()
   // create category oprions
   let categoryOptions = [];
   if (categorydata?.data && !isLoading) {
@@ -55,12 +71,24 @@ const page = () => {
   });
   // handle submit
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    const formData = new FormData();
     const postData = {
       ...data,
       questions: data.questions.map((item: { value: string }) => item.value),
-      foundDate: IsoString(data?.foundDate),
+      dateFound: IsoString(data?.dateFound),
+      user: user!._id,
     };
-    console.log(postData);
+
+    formData.append("data", JSON.stringify(postData));
+
+    for (let image of imageFiles) {
+      formData.append("itemImages", image);
+    }
+
+    console.log(formData.get("data"));
+    console.log(formData.get("itemImages"));
+
+    postItem(formData);
   };
   // handle append
   const hanldeAppend = () => {
@@ -80,15 +108,20 @@ const page = () => {
       reader.readAsDataURL(file);
     }
   };
-  console.log(Priviewimage);
+  if (isSuccess && !isPending) {
+    router.push('/')
+  }
+  // console.log(Priviewimage);
   return (
-    <div className="mt-10">
+<>
+{isPending && (<Loading/>)}
+<div className="mt-10">
       <FormProvider {...method}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid grid-cols-2 gap-5">
             <FXInput name="title" label="title" />
-            <FXDatePicker name="foundDate" label="Found Date"></FXDatePicker>
-            <FXInput name="Location" label="Location" />
+            <FXDatePicker name="dateFound" label="Found Date"></FXDatePicker>
+            <FXInput name="location" label="Location" />
             <FXSelect
               name="city"
               label="city"
@@ -122,11 +155,21 @@ const page = () => {
             {Priviewimage?.length > 0 &&
               Priviewimage?.map((img) => {
                 return (
-                  <div className="relative size-48 border border-dashed border-default-300 p-2 rounded-md">
-                    <img src={img} alt="lost item image" className="size-full object-cover object-center"/>
+                  <div
+                    key={img}
+                    className="relative size-40 border border-dashed border-default-300 p-2 rounded-md"
+                  >
+                    <img
+                      src={img}
+                      alt="lost item image"
+                      className="size-full object-cover object-center"
+                    />
                   </div>
                 );
               })}
+          </div>
+          <div>
+            <FXTextArea label="Description" name="description" />
           </div>
           <Divider className="my-5"></Divider>
           <div className="flex justify-between items-center">
@@ -144,12 +187,13 @@ const page = () => {
               <Button onClick={() => remove(index)}>Remove</Button>
             </div>
           ))}
-          
+
           <Divider className="my-5"></Divider>
           <Button type="submit">Post</Button>
         </form>
       </FormProvider>
     </div>
+</>
   );
 };
 

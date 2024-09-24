@@ -1,5 +1,6 @@
 "use server";
-import { axiosInstance } from "@/src/lib/AxiosInstance";
+import axiosInstance from "@/src/lib/AxiosInstance";
+// import { axiosInstance } from "@/src/lib/AxiosInstance";
 import { IUser } from "@/src/types";
 import { jwtDecode, JwtPayload } from "jwt-decode";
 import { cookies } from "next/headers";
