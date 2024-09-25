@@ -51,11 +51,11 @@ export default function FXModal({
                 {title}
               </ModalHeader>
               <ModalBody>{children}</ModalBody>
-              <ModalFooter>
+              {/* <ModalFooter>
                 <Button color="primary" onPress={onClose}>
                   Close
                 </Button>
-              </ModalFooter>
+              </ModalFooter> */}
             </>
           )}
         </ModalContent>

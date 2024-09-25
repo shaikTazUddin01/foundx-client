@@ -20,6 +20,17 @@ export const getRecentPost = async () => {
   return res.json();
 };
 
+// get single recent post
+export const getSingleRecentPost = async (item:string) => {
+  // let fetchOptions={}
+  // fetchOptions={
+  //   cache:"no-store"
+  // }
+  const { data } = await axiosInstance.get(`/items/${item}`);
+  // await delay(10000);
+  return data
+};
+
 export const createItemPost = async (formData: FieldValues) => {
   try {
     const { data } = await axiosInstance.post("/items", formData, {
