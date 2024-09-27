@@ -11,7 +11,7 @@ import {
 import { format } from "date-fns";
 
 const Card = ({item}:{item:IPost}) => {
-    console.log(item);
+    // console.log(item);
   return (
     <div>
       <NextUiCard

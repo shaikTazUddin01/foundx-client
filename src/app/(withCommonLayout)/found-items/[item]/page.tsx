@@ -16,7 +16,7 @@ interface IProps{
 const page = async({params:{item}}:IProps) => {
 // console.log('-->',item);
 const { data } =await getSingleRecentPost(item)
-console.log("---->",data);
+// console.log("---->",data);
 
     return (
         <div className='max-w-[720px] mx-auto my-10'>

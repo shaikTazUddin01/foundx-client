@@ -7,7 +7,7 @@ export const getCategories = async () => {
   try {
     // const { data } = await axiosInstance.get("/item-categories");
     const { data } = await axiosInstance.get("/item-categories");
-    console.log("category-->",data);
+   // console.log("category-->",data);
     return data;
   } catch (error: any) {
     console.log(error);
