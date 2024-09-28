@@ -8,6 +8,7 @@ import { useSearchItem } from "@/src/hooks/useSearchHook";
 import Image from "next/image";
 import { Button } from "@nextui-org/button";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const Landing = () => {
   const { register, handleSubmit, watch } = useForm();
@@ -21,7 +22,7 @@ const Landing = () => {
   const [searchResult, setSearchResult] = useState<any>([]);
 
   const searchterm = useDebounce(watch("searchItem"));
-
+const router=useRouter()
   useEffect(() => {
     if (searchterm) {
       handlesearchItem(searchterm);
@@ -32,7 +33,16 @@ const Landing = () => {
   // console.log(watch("searchItem"));
   const handleSearch: SubmitHandler<FieldValues> = (data) => {
     // console.log(data);
+    handleSeeAll(data?.searchItem)
   };
+
+const handleSeeAll=(query:string)=>{
+  const queryString=query?.trim().split(' ').join("+")
+
+  router?.push(`/found-items?query=${queryString}`)
+
+}
+
 
   useEffect(() => {
     if (!searchterm) {
@@ -90,7 +100,7 @@ const Landing = () => {
                   </Link>
                 );
               })}
-              <Button className="w-full">See more</Button>
+              <Button className="w-full" onClick={()=>handleSeeAll(searchResult)}>See more</Button>
           </div>
         )}
       </div>
